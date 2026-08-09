@@ -33,6 +33,8 @@ SERVER/
 
 ### Langkah 1: Install GitHub Runner di Folder per Project
 
+![Install GitHub Runner per Project](./docs/images/runner_installation.png)
+
 Jalankan script `setup-runner.sh` di server Linux untuk menginstall runner khusus ke folder project tertentu (misal: `/var/www/nama-project/actions-runner`):
 
 ```bash
@@ -50,6 +52,8 @@ Script ini secara otomatis:
 
 ### Langkah 2: Konfigurasi GitHub Variables & Secrets
 
+![GitHub Variables & Secrets Setup](./docs/images/github_vars_setup.png)
+
 Atur nilai berikut di GitHub Repository (**Settings > Secrets and variables > Actions**):
 
 | Tipe Variable | Nama Variable | Deskripsi / Contoh Nilai |
@@ -61,6 +65,8 @@ Atur nilai berikut di GitHub Repository (**Settings > Secrets and variables > Ac
 ---
 
 ### Langkah 3: Setup Workflow CI/CD
+
+![CI/CD Workflow Pipeline](./docs/images/server_deployment.png)
 
 Salin file `deploy.yaml` dari folder templat yang sesuai ([Nuxt](file:///c:/Users/Yuu/Documents/SERVER/frontend/nuxt/deploy.yaml), [React](file:///c:/Users/Yuu/Documents/SERVER/frontend/react/deploy.yaml), [Rust](file:///c:/Users/Yuu/Documents/SERVER/backend/rust/deploy.yaml), atau [Go](file:///c:/Users/Yuu/Documents/SERVER/backend/go/deploy.yaml)) ke `.github/workflows/deploy.yml` di repository proyek Anda.
 
@@ -116,6 +122,8 @@ jobs:
 
 ### Langkah 4: Setup Nginx Reverse Proxy
 
+![Nginx Reverse Proxy Setup](./docs/images/nginx_setup.png)
+
 1. Gunakan templat `nginx.conf` dari folder templat sebagai acuan konfigurasi site Nginx.
 2. Jalankan perintah dari `command-nginx.sh` untuk mengaktifkan reverse proxy:
 
@@ -134,6 +142,8 @@ sudo systemctl restart nginx
 ---
 
 ### Langkah 5: Konfigurasi Cloudflare Tunnel
+
+![Cloudflare Tunnel Setup](./docs/images/cloudflare_tunnel.png)
 
 Arahkan domain dan wildcard subdomain pada dashboard Cloudflare Zero Trust (Public Application Routes) ke Nginx server (`http://localhost:80`):
 
