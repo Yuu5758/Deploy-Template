@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: bram-innovation
 
     steps:
       - name: Checkout repository
@@ -30,10 +31,7 @@ jobs:
         with:
           name: build-artifact
           include-hidden-files: true
-          path: |
-            dist
-            package.json
-            package-lock.json
+          path: ${{ vars.ARTIFACT_PATH }}
 
   deploy:
     needs: build
