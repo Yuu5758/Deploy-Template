@@ -25,7 +25,6 @@ else
     RUNNER_DIR="${INPUT_DIR:-$DEFAULT_DIR}"
 fi
 
-# Expand tilde ~ jika dimasukkan oleh pengguna
 RUNNER_DIR="${RUNNER_DIR/#\~/$HOME}"
 
 echo "Memulai setup GitHub Self-Hosted Runner di lokasi: $RUNNER_DIR"
