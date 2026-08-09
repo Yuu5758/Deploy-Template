@@ -1,12 +1,13 @@
-# 🚀 Server Deployment Template (Nuxt & React)
+# 🚀 Server Deployment Template (Nuxt, React & Rust)
 
 [![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)](#)
+[![Rust](https://img.shields.io/badge/Rust-v1.70+-000000?style=for-the-badge&logo=rust&logoColor=white)](#)
 [![Node.js](https://img.shields.io/badge/Node.js-v20-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](#)
 [![PM2](https://img.shields.io/badge/Process_Manager-PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white)](#)
 [![Nginx](https://img.shields.io/badge/Reverse_Proxy-Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](#)
 [![Linux Self-Hosted](https://img.shields.io/badge/Runner-Self--Hosted-FCC624?style=for-the-badge&logo=linux&logoColor=black)](#)
 
-Templat otomatisasi CI/CD tingkat lanjut untuk deploy aplikasi **Nuxt** dan **React** menggunakan **GitHub Actions**, **Self-Hosted Runner**, **PM2**, dan **Nginx Reverse Proxy**.
+Templat otomatisasi CI/CD tingkat lanjut untuk deploy aplikasi **Nuxt**, **React**, dan **Rust** menggunakan **GitHub Actions**, **Swatinem/rust-cache**, **Self-Hosted Runner**, **PM2**, dan **Nginx Reverse Proxy**.
 
 ---
 
@@ -33,12 +34,12 @@ flowchart LR
     A[💻 Developer Push] -->|Git Push main| B[🐙 GitHub Repository]
     subgraph GitHub Cloud
         B --> C[⚙️ GitHub Actions Build Job]
-        C -->|npm build| D[📦 Upload Artifact]
+        C -->|npm build / cargo build| D[📦 Upload Artifact]
     end
     subgraph Self-Hosted Server
         D -->|Download Artifact| E[🏃 Self-Hosted Runner]
         E -->|Run deploy.sh| F[⚡ PM2 Process Manager]
-        F -->|Serves App Port 10021| G[🌐 Nginx Reverse Proxy]
+        F -->|Serves App Port 10021 / 10030| G[🌐 Nginx Reverse Proxy]
     end
     G -->|HTTPS Port 80/443| H[👥 End User / Client]
 ```
@@ -49,6 +50,12 @@ flowchart LR
 
 ```text
 SERVER/
+├── 📁 backend/
+│   └── 📁 rust/
+│       ├── 📄 deploy.yaml        # GitHub Actions Workflow (Rust dengan rust-cache)
+│       ├── 📄 deploy.sh          # Shell deployment script (PM2 / Binary)
+│       ├── 📄 nginx.conf         # Server configuration template (Rust API)
+│       └── 📄 command-nginx.sh   # Perintah setup & restart Nginx
 ├── 📁 frontend/
 │   ├── 📁 nuxt/
 │   │   ├── 📄 deploy.yaml        # GitHub Actions Workflow (Nuxt)
@@ -94,7 +101,7 @@ Sebelum menjalankan workflow CI/CD, Anda perlu menentukan variabel dan secrets d
 
 ### Langkah 2: Menyiapkan GitHub Actions Workflow
 
-Pilih file `deploy.yaml` sesuai dengan framework yang Anda gunakan ([Nuxt](file:///c:/Users/Yuu/Documents/SERVER/frontend/nuxt/deploy.yaml) atau [React](file:///c:/Users/Yuu/Documents/SERVER/frontend/react/deploy.yaml)), lalu tempatkan di lokasi `.github/workflows/deploy.yml` proyek Anda.
+Pilih file `deploy.yaml` sesuai dengan framework atau bahasa yang Anda gunakan ([Nuxt](file:///c:/Users/Yuu/Documents/SERVER/frontend/nuxt/deploy.yaml), [React](file:///c:/Users/Yuu/Documents/SERVER/frontend/react/deploy.yaml), atau [Rust](file:///c:/Users/Yuu/Documents/SERVER/backend/rust/deploy.yaml)), lalu tempatkan di lokasi `.github/workflows/deploy.yml` proyek Anda.
 
 <details>
 <summary>📜 <b>Lihat Struktur file deploy.yaml</b></summary>
