@@ -191,8 +191,9 @@ Anda dapat menginstall runner dan mengkonfigurasinya agar berjalan sebagai **Sys
 Jalankan perintah berikut di server Linux Anda:
 
 ```bash
-# Format: bash setup-runner.sh <REPO_URL> <RUNNER_TOKEN>
-bash setup-runner.sh https://github.com/OWNER/REPO ABC123YOURRUNNERTOKEN...
+# Format: bash setup-runner.sh <REPO_URL> <RUNNER_TOKEN> [RUNNER_DIR]
+# Contoh (Interaktif):    bash setup-runner.sh https://github.com/OWNER/REPO ABC123YOURTOKEN...
+# Contoh (Non-interaktif): bash setup-runner.sh https://github.com/OWNER/REPO ABC123YOURTOKEN... /var/actions-runner
 ```
 
 *Dapatkan `RUNNER_TOKEN` dari GitHub Repository di menu: **Settings > Actions > Runners > New self-hosted runner**.*

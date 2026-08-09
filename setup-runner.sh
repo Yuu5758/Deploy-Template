@@ -8,17 +8,27 @@ set -e
 # Pastikan parameter URL dan TOKEN diberikan
 if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Error: Argumen tidak lengkap."
-    echo "Usage: bash setup-runner.sh <REPO_URL_ATAU_ORG_URL> <RUNNER_TOKEN>"
-    echo "Contoh: bash setup-runner.sh https://github.com/my-org/my-repo ABC123XYZ..."
+    echo "Usage: bash setup-runner.sh <REPO_URL_ATAU_ORG_URL> <RUNNER_TOKEN> [RUNNER_DIR]"
+    echo "Contoh: bash setup-runner.sh https://github.com/my-org/my-repo ABC123XYZ... /var/actions-runner"
     exit 1
 fi
 
 REPO_URL="$1"
 RUNNER_TOKEN="$2"
-RUNNER_DIR="$HOME/actions-runner"
 RUNNER_VERSION="2.317.0"
 
-echo "Memulai setup GitHub Self-Hosted Runner..."
+DEFAULT_DIR="$HOME/actions-runner"
+if [ -n "$3" ]; then
+    RUNNER_DIR="$3"
+else
+    read -p "Masukkan direktori instalasi runner [$DEFAULT_DIR]: " INPUT_DIR
+    RUNNER_DIR="${INPUT_DIR:-$DEFAULT_DIR}"
+fi
+
+# Expand tilde ~ jika dimasukkan oleh pengguna
+RUNNER_DIR="${RUNNER_DIR/#\~/$HOME}"
+
+echo "Memulai setup GitHub Self-Hosted Runner di lokasi: $RUNNER_DIR"
 
 # 1. Buat direktori runner jika belum ada
 mkdir -p "$RUNNER_DIR"
