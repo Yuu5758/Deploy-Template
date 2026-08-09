@@ -1,13 +1,14 @@
 # 🚀 Server Deployment Template (Nuxt, React, Rust & Go)
 
 [![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)](#)
+[![Cloudflare](https://img.shields.io/badge/Tunnel-Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](#)
 [![Go](https://img.shields.io/badge/Go-v1.22+-00ADD8?style=for-the-badge&logo=go&logoColor=white)](#)
 [![Rust](https://img.shields.io/badge/Rust-v1.70+-000000?style=for-the-badge&logo=rust&logoColor=white)](#)
 [![Node.js](https://img.shields.io/badge/Node.js-v20-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](#)
 [![PM2](https://img.shields.io/badge/Process_Manager-PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white)](#)
 [![Nginx](https://img.shields.io/badge/Reverse_Proxy-Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](#)
 
-Templat otomatisasi CI/CD serbaguna untuk deploy aplikasi **Nuxt**, **React**, **Rust**, dan **Go** menggunakan **GitHub Actions**, **Self-Hosted Runner**, **PM2**, dan **Nginx Reverse Proxy**.
+Templat otomatisasi CI/CD serbaguna untuk deploy aplikasi **Nuxt**, **React**, **Rust**, dan **Go** menggunakan **GitHub Actions**, **Self-Hosted Runner**, **PM2**, **Nginx Reverse Proxy**, dan **Cloudflare Tunnel**.
 
 ---
 
@@ -129,6 +130,20 @@ sudo ln -s /etc/nginx/sites-available/nama-project /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
 ```
+
+---
+
+### Langkah 5: Konfigurasi Cloudflare Tunnel
+
+Arahkan domain dan wildcard subdomain pada dashboard Cloudflare Zero Trust (Public Application Routes) ke Nginx server (`http://localhost:80`):
+
+| Published Application Route | Path | Service URL | Keterangan |
+|---|---|---|---|
+| `braminnovation.com` | `*` | `http://localhost:80` | Traffic utama domain ke Nginx |
+| `*.braminnovation.com` | `*` | `http://localhost:80` | Traffic wildcard subdomain ke Nginx |
+
+> [!NOTE]
+> Dengan mengarahkan Cloudflare Tunnel ke `http://localhost:80`, Nginx akan secara otomatis menangani routing virtual host berdasarkan `server_name` ke port aplikasi yang sesuai (PM2 / Node / Rust / Go).
 
 ---
 
