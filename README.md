@@ -54,13 +54,51 @@ Script ini secara otomatis:
 
 ![GitHub Variables & Secrets Setup](./docs/images/github_vars_setup.png)
 
-Atur nilai berikut di GitHub Repository (**Settings > Secrets and variables > Actions**):
+Atur nilai berikut di GitHub Repository (**Settings > Secrets and variables > Actions** atau **Settings > Environments > Configure environment**):
 
 | Tipe Variable | Nama Variable | Deskripsi / Contoh Nilai |
 |---|---|---|
 | **Variables** | `DEPLOY_PATH` | Path direktori tempat app dideploy (misal: `/var/www/nama-project`) |
-| **Variables** | `ARTIFACT_PATH` | Daftar berkas build (misal: `dist`, `package.json`, `package-lock.json`, atau `./main`) |
+| **Variables** | `ARTIFACT_PATH` | Daftar berkas build **baris demi baris** (misal: `dist`, `package.json`, `package-lock.json`, atau `main`, `script`) |
 | **Secrets / Vars** | `ENV` / `ENV_CONTENT` | Isi file `.env` produksi |
+
+<details>
+<summary>🖼️ <b>[Klik Pratinjau Popup] Contoh Pengisian ARTIFACT_PATH pada Modal GitHub</b></summary>
+
+<br/>
+
+![GitHub Add Variable Modal](./docs/images/github_vars_setup.png)
+
+**Format penulisan di dalam field `Value` (baris demi baris):**
+
+- **React (Vite)**:
+  ```text
+  dist
+  package.json
+  package-lock.json
+  ```
+- **Nuxt**:
+  ```text
+  .output
+  package.json
+  package-lock.json
+  ```
+- **Go / Rust**:
+  ```text
+  main
+  script
+  ```
+
+</details>
+
+<details>
+<summary>🖼️ <b>[Klik Pratinjau Popup] Tampilan Daftar Environment Variables di Settings</b></summary>
+
+<br/>
+
+![GitHub Environment Variables List](./docs/images/github_vars_list.png)
+
+</details>
 
 ---
 
