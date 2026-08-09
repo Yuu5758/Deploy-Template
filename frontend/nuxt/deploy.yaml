@@ -1,14 +1,17 @@
-name: Deploy React App
+name: Deploy Nuxt App
 
 on:
   push:
     branches:
       - main
 
+env:
+  ENV_NAME: bram-innovation
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: bram-innovation
+    environment: ${{ env.ENV_NAME }}
 
     steps:
       - name: Checkout repository
@@ -23,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-      - name: Build React application
+      - name: Build Nuxt application
         run: npm run build
 
       - name: Upload build artifacts
@@ -36,7 +39,7 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
-    environment: bram-innovation
+    environment: ${{ env.ENV_NAME }}
 
     steps:
       - name: Download build artifacts

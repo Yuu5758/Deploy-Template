@@ -120,10 +120,13 @@ on:
     branches:
       - main
 
+env:
+  ENV_NAME: bram-innovation
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: bram-innovation
+    environment: ${{ env.ENV_NAME }}
 
     steps:
       - name: Checkout repository
@@ -151,7 +154,7 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
-    environment: bram-innovation
+    environment: ${{ env.ENV_NAME }}
 
     steps:
       - name: Download build artifacts
