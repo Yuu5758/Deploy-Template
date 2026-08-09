@@ -51,6 +51,7 @@ flowchart LR
 
 ```text
 SERVER/
+├── 📄 setup-runner.sh        # Script otomatisasi instalasi & setup service Self-Hosted Runner
 ├── 📁 backend/
 │   ├── 📁 go/
 │   │   ├── 📄 deploy.yaml        # GitHub Actions Workflow (Go dengan cache: true)
@@ -179,6 +180,60 @@ jobs:
 Pada job `deploy`, GitHub Actions Self-Hosted Runner di server Linux akan mengeksekusi file `deploy.sh`.
 
 ![Server Deployment Workflow](./docs/images/server_deployment.png)
+
+#### 🏃 Instalasi & Setup Service Self-Hosted Runner di Server
+
+Anda dapat menginstall runner dan mengkonfigurasinya agar berjalan sebagai **Systemd Service** di latar belakang menggunakan dua cara:
+
+<details>
+<summary>⚡ <b>Cara 1: Menggunakan Script Otomatis (setup-runner.sh)</b></summary>
+
+Jalankan perintah berikut di server Linux Anda:
+
+```bash
+# Format: bash setup-runner.sh <REPO_URL> <RUNNER_TOKEN>
+bash setup-runner.sh https://github.com/OWNER/REPO ABC123YOURRUNNERTOKEN...
+```
+
+*Dapatkan `RUNNER_TOKEN` dari GitHub Repository di menu: **Settings > Actions > Runners > New self-hosted runner**.*
+
+</details>
+
+<details>
+<summary>🛠️ <b>Cara 2: Langkah Manual Step-by-Step</b></summary>
+
+```bash
+# 1. Buat folder runner
+mkdir -p ~/actions-runner && cd ~/actions-runner
+
+# 2. Download package runner terbaru
+curl -o actions-runner-linux-x64-2.317.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.317.0/actions-runner-linux-x64-2.317.0.tar.gz
+
+# 3. Ekstrak package
+tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
+
+# 4. Konfigurasi runner dengan token
+./config.sh --url https://github.com/OWNER/REPO --token YOUR_RUNNER_TOKEN
+
+# 5. Install runner sebagai Systemd Service (Auto-start pada saat boot server)
+sudo ./svc.sh install
+
+# 6. Jalankan service runner
+sudo ./svc.sh start
+
+# 7. Cek status service runner
+sudo ./svc.sh status
+```
+
+**Perintah Manajemen Service Runner:**
+- **Start Service**: `sudo ./svc.sh start`
+- **Stop Service**: `sudo ./svc.sh stop`
+- **Status Service**: `sudo ./svc.sh status`
+- **Uninstall Service**: `sudo ./svc.sh uninstall`
+
+</details>
+
+<br/>
 
 <details>
 <summary>⚡ <b>Penjelasan Alur Kerja deploy.sh</b></summary>
