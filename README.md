@@ -1,13 +1,14 @@
-# 🚀 Server Deployment Template (Nuxt, React & Rust)
+# 🚀 Server Deployment Template (Nuxt, React, Rust & Go)
 
 [![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)](#)
+[![Go](https://img.shields.io/badge/Go-v1.22+-00ADD8?style=for-the-badge&logo=go&logoColor=white)](#)
 [![Rust](https://img.shields.io/badge/Rust-v1.70+-000000?style=for-the-badge&logo=rust&logoColor=white)](#)
 [![Node.js](https://img.shields.io/badge/Node.js-v20-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](#)
 [![PM2](https://img.shields.io/badge/Process_Manager-PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white)](#)
 [![Nginx](https://img.shields.io/badge/Reverse_Proxy-Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](#)
 [![Linux Self-Hosted](https://img.shields.io/badge/Runner-Self--Hosted-FCC624?style=for-the-badge&logo=linux&logoColor=black)](#)
 
-Templat otomatisasi CI/CD tingkat lanjut untuk deploy aplikasi **Nuxt**, **React**, dan **Rust** menggunakan **GitHub Actions**, **Swatinem/rust-cache**, **Self-Hosted Runner**, **PM2**, dan **Nginx Reverse Proxy**.
+Templat otomatisasi CI/CD tingkat lanjut untuk deploy aplikasi **Nuxt**, **React**, **Rust**, dan **Go** menggunakan **GitHub Actions** (dengan **Go Cache** / **rust-cache**), **Self-Hosted Runner**, **PM2**, dan **Nginx Reverse Proxy**.
 
 ---
 
@@ -51,6 +52,11 @@ flowchart LR
 ```text
 SERVER/
 ├── 📁 backend/
+│   ├── 📁 go/
+│   │   ├── 📄 deploy.yaml        # GitHub Actions Workflow (Go dengan cache: true)
+│   │   ├── 📄 deploy.sh          # Shell deployment script (PM2 / Binary)
+│   │   ├── 📄 nginx.conf         # Server configuration template (Go API)
+│   │   └── 📄 command-nginx.sh   # Perintah setup & restart Nginx
 │   └── 📁 rust/
 │       ├── 📄 deploy.yaml        # GitHub Actions Workflow (Rust dengan rust-cache)
 │       ├── 📄 deploy.sh          # Shell deployment script (PM2 / Binary)
@@ -101,7 +107,7 @@ Sebelum menjalankan workflow CI/CD, Anda perlu menentukan variabel dan secrets d
 
 ### Langkah 2: Menyiapkan GitHub Actions Workflow
 
-Pilih file `deploy.yaml` sesuai dengan framework atau bahasa yang Anda gunakan ([Nuxt](file:///c:/Users/Yuu/Documents/SERVER/frontend/nuxt/deploy.yaml), [React](file:///c:/Users/Yuu/Documents/SERVER/frontend/react/deploy.yaml), atau [Rust](file:///c:/Users/Yuu/Documents/SERVER/backend/rust/deploy.yaml)), lalu tempatkan di lokasi `.github/workflows/deploy.yml` proyek Anda.
+Pilih file `deploy.yaml` sesuai dengan framework atau bahasa yang Anda gunakan ([Nuxt](file:///c:/Users/Yuu/Documents/SERVER/frontend/nuxt/deploy.yaml), [React](file:///c:/Users/Yuu/Documents/SERVER/frontend/react/deploy.yaml), [Rust](file:///c:/Users/Yuu/Documents/SERVER/backend/rust/deploy.yaml), atau [Go](file:///c:/Users/Yuu/Documents/SERVER/backend/go/deploy.yaml)), lalu tempatkan di lokasi `.github/workflows/deploy.yml` proyek Anda.
 
 <details>
 <summary>📜 <b>Lihat Struktur file deploy.yaml</b></summary>
