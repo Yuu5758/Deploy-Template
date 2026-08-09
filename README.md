@@ -51,15 +51,17 @@ flowchart LR
 SERVER/
 ├── 📁 frontend/
 │   ├── 📁 nuxt/
-│   │   ├── 📄 deploy.yaml    # GitHub Actions Workflow (Nuxt)
-│   │   ├── 📄 deploy.sh      # Shell deployment script (PM2)
-│   │   └── 📄 nginx.conf     # Server configuration template
+│   │   ├── 📄 deploy.yaml        # GitHub Actions Workflow (Nuxt)
+│   │   ├── 📄 deploy.sh          # Shell deployment script (PM2)
+│   │   ├── 📄 nginx.conf         # Server configuration template
+│   │   └── 📄 command-nginx.sh   # Perintah setup & restart Nginx
 │   └── 📁 react/
-│       ├── 📄 deploy.yaml    # GitHub Actions Workflow (React)
-│       ├── 📄 deploy.sh      # Shell deployment script (PM2)
-│       └── 📄 nginx.conf     # Server configuration template
+│       ├── 📄 deploy.yaml        # GitHub Actions Workflow (React)
+│       ├── 📄 deploy.sh          # Shell deployment script (PM2)
+│       ├── 📄 nginx.conf         # Server configuration template
+│       └── 📄 command-nginx.sh   # Perintah setup & restart Nginx
 └── 📁 docs/
-    └── 📁 images/            # Ilustrasi & Diagram Step-by-Step
+    └── 📁 images/                # Ilustrasi & Diagram Step-by-Step
 ```
 
 ---
@@ -208,10 +210,10 @@ pm2 save > /dev/null 2>&1
 
 ### Langkah 4: Konfigurasi Nginx Reverse Proxy
 
-Gunakan templat `nginx.conf` untuk mengarahkan domain publik ke aplikasi Node.js yang berjalan di `localhost:10021`.
+Gunakan templat `nginx.conf` untuk mengarahkan domain publik ke aplikasi Node.js yang berjalan di `localhost:10021`. Perintah eksekusi Nginx tersedia secara terpisah pada file `command-nginx.sh`.
 
 <details>
-<summary>🛠️ <b>Perintah Konfigurasi Nginx di Server</b></summary>
+<summary>🛠️ <b>Perintah Konfigurasi Nginx (command-nginx.sh)</b></summary>
 
 ```bash
 # 1. Buat file konfigurasi di sites-available
