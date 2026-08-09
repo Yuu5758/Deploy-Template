@@ -59,8 +59,11 @@ Atur nilai berikut di GitHub Repository (**Settings > Secrets and variables > Ac
 | Tipe Variable | Nama Variable | Deskripsi / Contoh Nilai |
 |---|---|---|
 | **Variables** | `DEPLOY_PATH` | Path direktori tempat app dideploy (misal: `/var/www/nama-project`) |
-| **Variables** | `ARTIFACT_PATH` | Daftar berkas build **baris demi baris** (misal: `dist`, `package.json`, `package-lock.json`, atau `main`, `script`) |
-| **Secrets / Vars** | `ENV` / `ENV_CONTENT` | Isi file `.env` produksi |
+| **Variables** | `ARTIFACT_PATH` | Isi dengan `.` (titik) untuk **mengambil semua file langsung**, atau daftar spesifik (`dist`, `package.json`, dll.) |
+
+> [!TIP]
+> **Cara Langsung Mengambil Semua File:**
+> Isi nilai `ARTIFACT_PATH` dengan cukup satu karakter **`.` (titik)**. GitHub Actions akan meng-upload seluruh file dan folder proyek sekaligus tanpa perlu didaftarkan satu per satu. File `deploy.yaml` juga sudah dilengkapi fallback otomatis `${{ vars.ARTIFACT_PATH || '.' }}`.
 
 <details>
 <summary>🖼️ <b>[Klik Pratinjau Popup] Contoh Pengisian ARTIFACT_PATH pada Modal GitHub</b></summary>
@@ -69,25 +72,15 @@ Atur nilai berikut di GitHub Repository (**Settings > Secrets and variables > Ac
 
 ![GitHub Add Variable Modal](./docs/images/github_vars_setup.png)
 
-**Format penulisan di dalam field `Value` (baris demi baris):**
+**Pilihan 1 — Mengambil Semua File Langsung (Rekomendasi):**
+```text
+.
+```
 
-- **React (Vite)**:
-  ```text
-  dist
-  package.json
-  package-lock.json
-  ```
-- **Nuxt**:
-  ```text
-  .output
-  package.json
-  package-lock.json
-  ```
-- **Go / Rust**:
-  ```text
-  main
-  script
-  ```
+**Pilihan 2 — Spesifik Baris demi Baris:**
+- **React (Vite)**: `dist`, `package.json`, `package-lock.json`
+- **Nuxt**: `.output`, `package.json`, `package-lock.json`
+- **Go / Rust**: `main`, `script`
 
 </details>
 
@@ -116,13 +109,10 @@ on:
     branches:
       - main
 
-env:
-  ENV_NAME: bram-innovation
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ env.ENV_NAME }}
+    environment: bram-innovation
 
     steps:
       - name: Checkout repository
@@ -135,12 +125,12 @@ jobs:
         with:
           name: build-artifact
           include-hidden-files: true
-          path: ${{ vars.ARTIFACT_PATH }}
+          path: ${{ vars.ARTIFACT_PATH || '.' }}
 
   deploy:
     needs: build
     runs-on: self-hosted
-    environment: ${{ env.ENV_NAME }}
+    environment: bram-innovation
 
     steps:
       - name: Download build artifacts

@@ -5,13 +5,10 @@ on:
     branches:
       - main
 
-env:
-  ENV_NAME: bram-innovation
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: ${{ env.ENV_NAME }}
+    environment: bram-innovation
 
     steps:
       - name: Checkout repository
@@ -31,12 +28,12 @@ jobs:
         with:
           name: build-artifact
           include-hidden-files: true
-          path: ${{ vars.ARTIFACT_PATH }}
+          path: ${{ vars.ARTIFACT_PATH || '.' }}
 
   deploy:
     needs: build
     runs-on: self-hosted
-    environment: ${{ env.ENV_NAME }}
+    environment: bram-innovation
 
     steps:
       - name: Download build artifacts
